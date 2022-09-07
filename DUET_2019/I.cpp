@@ -1,3 +1,177 @@
+/* Tested by https://codeforces.com/contest/1200/problem/E */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define mx 1000005
+#define ll long long
+
+int n, m, ii, k;
+char ch[mx], ch1[mx];
+/*
+backup prime
+307,367
+1040160883,1066517951
+1e9+7,1e9+9,1072857881,1000004249
+*/
+
+ll P[mx], base = 1949313259, mod = 2091573227;
+
+ll add(ll a, ll b)
+{
+    a += b;
+    if (a >= mod)a -= mod;
+    return a;
+}
+ll sub(ll a, ll b)
+{
+    a -= b;
+    if (a < 0)a += mod;
+    return a;
+}
+ll mul(ll a, ll b)
+{
+    ll re = a;
+    re *= b;
+    if (re >= mod)re %= mod;
+    return re;
+}
+
+void precal()
+{
+    P[0] = 1;
+    for (int i = 1; i < mx; i++)P[i] = mul(base, P[i - 1]);
+}
+
+struct Hash_dui
+{
+    ll base, mod;
+    int sz;
+    vector<int>Rev, Forw;
+    Hash_dui() {}
+    Hash_dui(const char* s, ll b, ll m)
+    {
+        sz = strlen(s), base = b, mod = m;
+        Forw.resize(sz + 2, 0);
+        for (int i = 1; i <= sz; i++)Forw[i] = add(mul(Forw[i - 1], base), add(s[i - 1] - 'a',  1));
+    }
+
+    inline int Range_Hash(int l, int r)
+    {
+        int re_hash = sub(Forw[r + 1], mul((ll)P[r - l + 1], Forw[l]));
+        if (re_hash < 0)re_hash += mod;
+        return re_hash;
+    }
+};
+struct Hash_Main
+{
+    Hash_dui h1, h2;
+    Hash_Main() {}
+    Hash_Main(const char* s)
+    {
+        h1 = Hash_dui(s, 1949313259, 2091573227);
+    }
+
+    inline ll Range_Hash(int l, int r) /// O base index
+    {
+        return (ll)h1.Range_Hash(l, r);
+    }
+};
+
+Hash_Main charhash[16];
+
+void solve()
+{
+    int n;
+    scanf("%s", ch);
+    n = strlen(ch);
+    string re = ch;
+    Hash_Main h_ek(ch);
+
+    vector<ll>hash[17];
+
+    for (int j = 0; j < 17; j++) {
+        for (int i = 0; i + (1 << j) - 1 < n; i++) {
+            hash[j].push_back(h_ek.Range_Hash(i, i + (1 << j) - 1));
+        }
+    }
+
+    for (int j = 0; j < 17; j++) {
+        sort(hash[j].begin(), hash[j].end());
+        // for (int i = 0; i + (1 << j) - 1 < n; i++) {
+        //     cout << hash[j][i] << " ";
+        // }
+        // if (hash[j].size() > 0) cout << endl;
+    }
+
+    int q;
+
+    scanf("%d", &q);
+
+    while (q--) {
+        scanf("%s", ch);
+
+        int m = strlen(ch);
+
+        ll ans = 0;
+
+        int bit;
+
+        for (int i = 0; i < 17; i++) {
+            if ((m >> i) & 1) {
+                bit = i;
+                break;
+            }
+        }
+
+        Hash_Main tmp(ch);
+
+        for (int i = 0; i < m; i++) {
+            ll prehash = 0, midhash = 0, suffixhash = 0;
+            if (i > 0) prehash = tmp.Range_Hash(0, i - 1);
+            if (i < m - 1) suffixhash = tmp.Range_Hash(i + 1, m - 1);
+            for (int j = 0; j < 16; j++) {
+                if (char(j + 'a') == ch[i]) continue;
+
+                midhash = charhash[j].Range_Hash(0, 0);
+
+                ll tothash = add(mul(prehash, base), midhash);
+                // cout << P[m - i - 1] << " ";
+
+                tothash = add(mul(tothash, P[m - i - 1]), suffixhash);
+
+                ans += upper_bound(hash[bit].begin(), hash[bit].end(), tothash) - lower_bound(hash[bit].begin(), hash[bit].end(), tothash);
+            }
+        }
+        ll tothash = tmp.Range_Hash(0, m - 1);
+
+        ans += upper_bound(hash[bit].begin(), hash[bit].end(), tothash) - lower_bound(hash[bit].begin(), hash[bit].end(), tothash);
+        printf("%lld\n", ans);
+    }
+}
+
+int main()
+{
+    int t = 1;
+
+    precal();
+
+    for (int i = 0; i < 16; i++) {
+        char ch[1];
+        ch[0] = char(i + 'a');
+        Hash_Main tmp(ch);
+        charhash[i] = tmp;
+        // cout << charhash[i].Range_Hash(0, 0) << endl;
+    }
+
+    scanf("%d", &t);
+    for (int i = 1; i <= t; i++) {
+        printf("Case %d:\n", i);
+        solve();
+    }
+    return 0;
+}
+
 #include<bits/stdc++.h>
 using namespace std;
 
