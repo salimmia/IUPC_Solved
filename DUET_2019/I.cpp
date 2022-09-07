@@ -1,5 +1,3 @@
-/* Tested by https://codeforces.com/contest/1200/problem/E */
-
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -169,7 +167,6 @@ using namespace std;
 
 int n, m, ii, k;
 char ch[mx], ch1[mx];
-
 struct Hash_dui
 {
     ll base, mod;
@@ -292,22 +289,6 @@ void solve()
         ans += upper_bound(hash[bit].begin(), hash[bit].end(), tothash) - lower_bound(hash[bit].begin(), hash[bit].end(), tothash);
         printf("%lld\n", ans);
     }
-
-    // int sz = re.size();
-    // for (int i = 2; i <= n; i++)
-    // {
-    //     scanf("%s", ch1);
-    //     Hash_Main h_dui(ch1);
-    //     int sz2 = strlen(ch1);
-
-    //     int jabe = 0;
-    //     for (int j = 1; j <= min(sz, sz2); j++)
-    //     {
-    //         if (h_ek.Range_Hash(sz - j, sz - 1) == h_dui.Range_Hash(0, j - 1))jabe = j;
-    //     }
-    //     for (int j = jabe; j < sz2; j++)h_ek.Char_Add(ch1[j]), sz++, re += ch1[j];
-    // }
-    // cout << re << "\n";
 }
 
 int main()
@@ -329,4 +310,5 @@ int main()
     }
     return 0;
 }
+
 */
