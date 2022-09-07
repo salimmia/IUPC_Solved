@@ -88,15 +88,15 @@ void solve()
     string re = ch;
     Hash_Main h_ek(ch);
 
-    vector<ll>hash[17];
+    vector<ll>hash[23];
 
-    for (int j = 0; j < 17; j++) {
+    for (int j = 0; j < 23; j++) {
         for (int i = 0; i + (1 << j) - 1 < n; i++) {
             hash[j].push_back(h_ek.Range_Hash(i, i + (1 << j) - 1));
         }
     }
 
-    for (int j = 0; j < 17; j++) {
+    for (int j = 0; j < 23; j++) {
         sort(hash[j].begin(), hash[j].end());
         // for (int i = 0; i + (1 << j) - 1 < n; i++) {
         //     cout << hash[j][i] << " ";
@@ -117,7 +117,7 @@ void solve()
 
         int bit;
 
-        for (int i = 0; i < 17; i++) {
+        for (int i = 0; i < 23; i++) {
             if ((m >> i) & 1) {
                 bit = i;
                 break;
