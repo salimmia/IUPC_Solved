@@ -92,14 +92,6 @@ int query(int node, int be, int en, int i, int j, int c, int ti)
     return query(node * 2, be, mid, i, j, c, ti) + query(node * 2 + 1, mid + 1, en, i, j, c, ti);
 }
 
-// void dbg_test(int node, int be, int en)
-// {
-//     if (be == en)return;
-//     int mid = (be + en) / 2;
-//     dbg_test(node * 2, be, mid);
-//     dbg_test(node * 2 + 1, mid + 1, en);
-// }
-
 void solve()
 {
     scanf("%s", &ch[0]);
