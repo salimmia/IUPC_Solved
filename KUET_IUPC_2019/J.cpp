@@ -9,7 +9,7 @@ using namespace std;
 
 int a[mx], b[mx];
 char ch[mx];
-int n, m, tt, k,  dp[mx][11], vis[mx][11], dp1[mx][11], vis1[mx][11], idx[mx * 10], mx_taken_idx[mx];
+int n, m, tt, k,  dp[mx][11], vis[mx][11], dp1[mx][11], vis1[mx][11];
 
 int fnc(int pos, int baki)
 {
@@ -51,26 +51,16 @@ void solve()
 {
     scanf("%d%d", &n, &k);
 
-    for (int i = 1; i <= 100000; i++) idx[i] = -1;
-
     for (int i = 1; i <= n; i++) scanf("%d", &a[i]);
-    for (int i = 1; i <= n; i++) {
-        scanf("%d", &b[i]);
-        if (idx[b[i]] == -1) idx[b[i]] = i;
-    }
+    for (int i = 1; i <= n; i++) scanf("%d", &b[i]);
 
     vector<pair<int, int>> arr;
 
     for (int i = n; i >= 1; i--) {
         int tot = 0;
-        int mxx = 0;
         for (int j = 0; j <= k; j++) {
             // cout << i << " " << j << "  " << fnc(i, j) << endl;
-            if (tot < fnc(i, j)) {
-                mxx = j;
-            }
             tot = max(tot, fnc(i, j));
-            mx_taken_idx[i] = mxx;
         }
         arr.emplace_back(b[i], tot);
     }
@@ -86,7 +76,7 @@ void solve()
         suf[i] = max(suf[i + 1], arr[i - 1].second);
     }
 
-    int ans = 0;
+    int ans = suf[1];
 
     for (int i = 1; i <= n; i++) {
         for (int j = 0; j <= k; j++) {
@@ -96,7 +86,9 @@ void solve()
 
             int id = lower_bound(arr.begin(), arr.end(), make_pair(a[i], -1)) - arr.begin();
 
-            if (id == n) continue;
+            // if (id == n) continue;
+
+            // cout << i << " " << ret << " " << suf[id + 1] << endl;
 
             ans = max(ans, suf[id + 1] + ret);
         }
