@@ -162,8 +162,6 @@ void solve()
 
             if (is_graph[cmp]) ans = min(ans, comp_cost[ii] - ans);
 
-            // if (is_graph[cmp]) cout << "|  " << endl;
-
             printf("%lld\n", ans);
         }
     }
