@@ -12,7 +12,7 @@ int n, m, ii, k, parent[mx][15], comp_par[mx], depth[mx], par[mx], node[mx], dis
 vector<pair<int, int>>g[mx];
 bool vis[mx], is_graph[mx];
 
-ll component[mx];
+ll comp_cost[mx];
 
 void init() {
     for (int k = 1 ; k < 15 ; k++) {
@@ -63,11 +63,11 @@ void dfs(int u, int p, int d, int cost)
     for (auto [v, w] : g[u]) {
         if (v != p) {
             if (vis[v] == true) {
-                if (is_graph[ii] == false) component[ii] += w;
+                if (is_graph[ii] == false) comp_cost[ii] += w;
                 is_graph[ii] = true;
             }
             else {
-                component[ii] += w;
+                comp_cost[ii] += w;
                 dfs(v, u, d + 1, cost + w);
             }
         }
@@ -84,11 +84,23 @@ void Union(int paru, int parv)
     par[parv] = paru;
 }
 
+void Clear(int n)
+{
+    for (int i = 0; i <= n; i++) {
+        par[i] = i;
+        g[i].clear();
+        vis[i] = false;
+        comp_cost[i] = 0;
+        dist[i] = 0;
+        is_graph[i] = false;
+    }
+}
+
 void solve()
 {
     scanf("%d%d", &n, &m);
 
-    for (int i = 0; i <= n; i++) par[i] = i, g[i].clear(), vis[i] = false, component[i] = 0, dist[i] = 0;
+    Clear(n);
 
     for (int i = 0; i < m; i++) {
         int u, v, w;
@@ -113,7 +125,7 @@ void solve()
             ++ii;
             comp_par[ii] = i;
             dfs(i, -1, 0, 0);
-            // cout << component[ii] << endl;
+            // cout << comp_cost[ii] << endl;
         }
     }
 
@@ -148,7 +160,7 @@ void solve()
 
             // cout << "Lca: " << _lca << endl;
 
-            if (is_graph[cmp]) ans = min(ans, component[ii] - ans);
+            if (is_graph[cmp]) ans = min(ans, comp_cost[ii] - ans);
 
             // if (is_graph[cmp]) cout << "|  " << endl;
 
