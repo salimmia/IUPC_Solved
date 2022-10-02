@@ -163,6 +163,10 @@ void solve()
                         now = mul(now, inv[bigmod(div, cnt)]);
                         ache[div].pop_back();
                     }
+                    else {
+                        auto it = lower_bound(ache[div].begin(), ache[div].end(), cnt);
+                        ache[div].erase(it);
+                    }
 
                     if (ache[div].size() > 0) {
                         now = mul(now, bigmod(div, ache[div].back()));
