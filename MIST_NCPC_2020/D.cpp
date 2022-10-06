@@ -175,3 +175,101 @@ N=1? P=1? Something about 0?
 3. Do not make STUPID MISTAKES!
 Time complexity? Memory usage? Precision error?
 */
+
+/*///Created by Salim_JnU
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define mx 200005
+#define ll long long
+#define mod 1000000007 //998244353
+
+int a[mx];
+char ch[mx];
+int n, m, tt, k;
+vector<int>g[mx];
+int st[mx], en[mx], timer;
+set<pair<int, int>>s;
+bool done[mx];
+
+void dfs(int u, int p)
+{
+	st[u] = ++timer;
+
+	for (auto v : g[u]) {
+		if (v != p) dfs(v, u);
+	}
+	en[u] = ++timer;
+
+	s.insert({en[u], u});
+}
+
+void solve()
+{
+	scanf("%d", &n);
+
+	for (int i = 1; i < n; i++) {
+		int u, v;
+
+		scanf("%d%d", &u, &v);
+
+		g[u].push_back(v);
+		g[v].push_back(u);
+	}
+
+	for (int i = 1; i <= n; i++) sort(g[i].begin(), g[i].end());
+
+	dfs(1, -1);
+
+	int q;
+
+	scanf("%d", &q);
+
+	while (q--) {
+		int type;
+
+		scanf("%d", &type);
+
+		if (type == 1) {
+			int u, water;
+
+			scanf("%d%d", &u, &water);
+
+			if (done[u] || water == 0) continue;
+
+			auto it = s.lower_bound({st[u], -1});
+
+			while (water > 0) {
+				if (it->first == st[u]) break;
+
+				done[it->second] = 1;
+
+				it = s.erase(it);
+
+				water--;
+			}
+		}
+		else {
+			int u;
+			scanf("%d", &u);
+			printf("%d\n", done[u]);
+		}
+	}
+
+	return;
+}
+
+int main()
+{
+	int t = 1;
+	scanf("%d", &t);
+	for (int i = 1; i <= t; i++) {
+		tt++;
+		timer = 0;
+		printf("Case %d:\n", i);
+		solve();
+	}
+	return 0;
+}
+*/
