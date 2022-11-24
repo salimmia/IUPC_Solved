@@ -1,4 +1,4 @@
-///Creater by Salim_JnU
+///Creater by Salim_JnU 
 
 #include<bits/stdc++.h>
 using namespace std;
