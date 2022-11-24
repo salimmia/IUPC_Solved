@@ -30,7 +30,7 @@ ll sub(ll a, ll b)
     return a;
 }
 ll mul(ll a, ll b)
-{
+{ 
     ll re = a;
     re *= b;
     if (re >= mod)re %= mod;
